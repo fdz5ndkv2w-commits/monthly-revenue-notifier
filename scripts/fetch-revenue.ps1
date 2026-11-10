@@ -84,7 +84,17 @@ function Write-MarkdownReport {
 }
 
 Write-Host "Downloading $url"
-$response = Invoke-WebRequest -Uri $url -UseBasicParsing
+$response = $null
+for ($attempt = 1; $attempt -le 3; $attempt++) {
+    try {
+        $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 60
+        break
+    } catch {
+        if ($attempt -eq 3) { throw }
+        Write-Warning "MOPS connection failed (attempt $attempt of 3). Retrying in 10 seconds."
+        Start-Sleep -Seconds 10
+    }
+}
 if ($response.StatusCode -ne 200 -or $response.Content -notmatch '營業收入統計表') {
     throw "MOPS page was unavailable or did not contain a revenue table: $url"
 }

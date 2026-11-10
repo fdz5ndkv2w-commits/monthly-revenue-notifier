@@ -53,3 +53,5 @@ company_id
 每個月份會輸出兩種報表：每日新增申報與 `all-companies.md` 全公司總表。兩份報表皆以水平分隔線區隔產業，並保留 MOPS 公告備註。
 
 建立初始基準時可加入 `-InitializeFromFullReport`，讓當日報表直接使用完整公司清單；之後的每日執行會回復為僅整理新增申報。
+
+在 GitHub Actions 的手動執行畫面勾選「傳送 Slack 測試通知」，可驗證 `SLACK_WEBHOOK_URL` 設定與目標頻道是否正常。

@@ -5,7 +5,8 @@ param(
     [int]$Month,
     [string]$SlackWebhookUrl = $env:SLACK_WEBHOOK_URL,
     [switch]$RefreshExistingReports,
-    [switch]$InitializeFromFullReport
+    [switch]$InitializeFromFullReport,
+    [switch]$SendTestSlack
 )
 
 $ErrorActionPreference = 'Stop'
@@ -188,4 +189,10 @@ if ($newRows.Count -gt 0 -and $SlackWebhookUrl) {
     $message = "*$RocYear 年 $Month 月營收新增申報：$($newRows.Count) 家*`n$preview`n完整報表：$url"
     Invoke-RestMethod -Uri $SlackWebhookUrl -Method Post -ContentType 'application/json; charset=utf-8' -Body (@{ text = $message } | ConvertTo-Json) | Out-Null
     Write-Host 'Slack notification sent.'
+}
+if ($SendTestSlack) {
+    if (-not $SlackWebhookUrl) { throw 'SLACK_WEBHOOK_URL is required for a Slack test notification.' }
+    $message = "*每月營收推送測試成功*`nGitHub Actions 已可傳送通知到此頻道。`n測試時間：$($today.ToString('yyyy-MM-dd HH:mm'))（台北時間）"
+    Invoke-RestMethod -Uri $SlackWebhookUrl -Method Post -ContentType 'application/json; charset=utf-8' -Body (@{ text = $message } | ConvertTo-Json) | Out-Null
+    Write-Host 'Slack test notification sent.'
 }

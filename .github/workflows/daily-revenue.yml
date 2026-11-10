@@ -14,6 +14,11 @@ on:
         description: "月份（留空為本月）"
         required: false
         type: string
+      test_slack:
+        description: "傳送 Slack 測試通知"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -32,6 +37,7 @@ jobs:
           $params = @{}
           if ('${{ inputs.roc_year }}') { $params.RocYear = [int]'${{ inputs.roc_year }}' }
           if ('${{ inputs.month }}') { $params.Month = [int]'${{ inputs.month }}' }
+          if ('${{ inputs.test_slack }}' -eq 'true') { $params.SendTestSlack = $true }
           ./scripts/fetch-revenue.ps1 @params
 
       - name: Commit reports

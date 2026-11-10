@@ -35,6 +35,43 @@ function Clean-Text([string]$Value) {
     return [System.Net.WebUtility]::HtmlDecode(($Value -replace '<br\s*/?>', '' -replace '<[^>]+>', '').Trim())
 }
 
+function Write-MarkdownReport {
+    param(
+        [string]$Path,
+        [string]$Title,
+        [object[]]$ReportRows,
+        [string]$Summary
+    )
+
+    $lines = @(
+        "# $Title",
+        '',
+        "來源：[公開資訊觀測站]($url)",
+        '',
+        $Summary,
+        ''
+    )
+    if (-not $ReportRows -or $ReportRows.Count -eq 0) {
+        $lines += '沒有符合條件的公司。'
+        [IO.File]::WriteAllLines($Path, $lines, $utf8NoBom)
+        return
+    }
+
+    $firstGroup = $true
+    foreach ($group in ($ReportRows | Group-Object industry_category)) {
+        if (-not $firstGroup) { $lines += '', '---', '' }
+        $firstGroup = $false
+        $lines += "## $($group.Name)（$($group.Count) 家）", ''
+        $lines += '| 公司代號 | 公司名稱 | 當月營收（千元） | 月增 | 年增 | 備註 |'
+        $lines += '| --- | --- | ---: | ---: | ---: | --- |'
+        foreach ($row in $group.Group) {
+            $note = if ($row.note -and $row.note -ne '-') { $row.note -replace '\|', '\\|' } else { '—' }
+            $lines += '| {0} | {1} | {2:N0} | {3:N2}% | {4:N2}% | {5} |' -f $row.company_id, $row.company_name, $row.monthly_revenue, $row.mom_pct, $row.yoy_pct, $note
+        }
+    }
+    [IO.File]::WriteAllLines($Path, $lines, $utf8NoBom)
+}
+
 Write-Host "Downloading $url"
 $response = Invoke-WebRequest -Uri $url -UseBasicParsing
 if ($response.StatusCode -ne 200 -or $response.Content -notmatch '營業收入統計表') {
@@ -109,6 +146,8 @@ $snapshot = [ordered]@{
 
 $csvPath = Join-Path $reportDir "$reportDate.csv"
 $markdownPath = Join-Path $reportDir "$reportDate.md"
+$fullCsvPath = Join-Path $reportDir 'all-companies.csv'
+$fullMarkdownPath = Join-Path $reportDir 'all-companies.md'
 $reportRows = $newRows
 if ($RefreshExistingReports -and $newRows.Count -eq 0 -and (Test-Path $csvPath)) {
     $existingIds = @(Import-Csv $csvPath | ForEach-Object { [string]$_.company_id })
@@ -121,30 +160,15 @@ $sortOrder = @(
     'company_id'
 )
 $reportRows = @($reportRows | Sort-Object -Property $sortOrder)
+$fullReportRows = @($rows | Sort-Object -Property $sortOrder)
 if ($newRows.Count -gt 0 -or -not (Test-Path $csvPath) -or $RefreshExistingReports) {
     $reportRows | Export-Csv -Path $csvPath -NoTypeInformation -Encoding utf8
 }
-
-$lines = @(
-    "# $RocYear 年 $Month 月營收：$reportDate 新增申報",
-    '',
-    "來源：[公開資訊觀測站]($url)",
-    '',
-    "本次新增：$($newRows.Count) 家（比對範圍：$($rows.Count) 家）",
-    ''
-)
-if ($reportRows.Count) {
-    $lines += '| AI 供應鏈類別 | 公司代號 | 公司名稱 | 當月營收（千元） | 月增 | 年增 |'
-    $lines += '| --- | --- | --- | ---: | ---: | ---: |'
-    foreach ($row in $reportRows) {
-        $lines += '| {0} | {1} | {2} | {3:N0} | {4:N2}% | {5:N2}% |' -f $row.industry_category, $row.company_id, $row.company_name, $row.monthly_revenue, $row.mom_pct, $row.yoy_pct
-    }
-} else {
-    $lines += '今天沒有新增申報公司。'
-}
 if ($newRows.Count -gt 0 -or -not (Test-Path $markdownPath) -or $RefreshExistingReports) {
-    [IO.File]::WriteAllLines($markdownPath, $lines, $utf8NoBom)
+    Write-MarkdownReport -Path $markdownPath -Title "$RocYear 年 $Month 月營收：$reportDate 新增申報" -ReportRows $reportRows -Summary "本次新增：$($newRows.Count) 家（比對範圍：$($rows.Count) 家）"
 }
+$fullReportRows | Export-Csv -Path $fullCsvPath -NoTypeInformation -Encoding utf8
+Write-MarkdownReport -Path $fullMarkdownPath -Title "$RocYear 年 $Month 月營收全公司整理" -ReportRows $fullReportRows -Summary "共 $($fullReportRows.Count) 家，AI 供應鏈類別優先，其餘依 MOPS 傳統產業分類。"
 
 Write-Host "Found $($newRows.Count) newly disclosed companies."
 if ($newRows.Count -gt 0 -and $SlackWebhookUrl) {

@@ -3,7 +3,8 @@ param(
     [int]$RocYear,
     [ValidateRange(1, 12)]
     [int]$Month,
-    [string]$SlackWebhookUrl = $env:SLACK_WEBHOOK_URL
+    [string]$SlackWebhookUrl = $env:SLACK_WEBHOOK_URL,
+    [switch]$RefreshExistingReports
 )
 
 $ErrorActionPreference = 'Stop'
@@ -40,14 +41,20 @@ if ($response.StatusCode -ne 200 -or $response.Content -notmatch '營業收入�
     throw "MOPS page was unavailable or did not contain a revenue table: $url"
 }
 
-$rows = [regex]::Matches($response.Content, '(?is)<tr\s+align=right>(?<row>.*?)</tr>') |
-    ForEach-Object {
-        $cells = [regex]::Matches($_.Groups['row'].Value, '(?is)<t[dh][^>]*>(?<cell>.*?)</t[dh]>') |
+$industryMatches = [regex]::Matches($response.Content, '產業別：(?<industry>[^<]+)')
+$rows = foreach ($match in [regex]::Matches($response.Content, '(?is)<tr\s+align=right>(?<row>.*?)</tr>')) {
+        $cells = [regex]::Matches($match.Groups['row'].Value, '(?is)<t[dh][^>]*>(?<cell>.*?)</t[dh]>') |
             ForEach-Object { Clean-Text $_.Groups['cell'].Value }
         if ($cells.Count -ge 10 -and $cells[0] -match '^\d{4,6}$') {
+            $industry = $null
+            foreach ($industryMatch in $industryMatches) {
+                if ($industryMatch.Index -ge $match.Index) { break }
+                $industry = Clean-Text $industryMatch.Groups['industry'].Value
+            }
             [pscustomobject]@{
                 company_id       = $cells[0]
                 company_name     = $cells[1]
+                traditional_industry = $industry
                 monthly_revenue  = Convert-Number $cells[2]
                 prior_month      = Convert-Number $cells[3]
                 prior_year_month = Convert-Number $cells[4]
@@ -59,9 +66,26 @@ $rows = [regex]::Matches($response.Content, '(?is)<tr\s+align=right>(?<row>.*?)<
                 note             = if ($cells.Count -gt 10) { $cells[10] } else { '' }
             }
         }
-    }
+}
 
 if (-not $rows) { throw "No company rows could be parsed from MOPS: $url" }
+
+$classificationPath = Join-Path $root 'data/ai_supply_chain.csv'
+$classifications = @{}
+if (Test-Path $classificationPath) {
+    Import-Csv $classificationPath | ForEach-Object {
+        if ($_.company_id -and $_.category) { $classifications[[string]$_.company_id] = $_.category }
+    }
+}
+foreach ($row in $rows) {
+    $isAiSupplyChain = $classifications.ContainsKey($row.company_id)
+    $row | Add-Member -NotePropertyName classification_group -NotePropertyValue $(if ($isAiSupplyChain) { 0 } else { 1 })
+    $row | Add-Member -NotePropertyName industry_category -NotePropertyValue $(
+        if ($isAiSupplyChain) { "AI供應鏈：$($classifications[$row.company_id])" }
+        elseif ($row.traditional_industry) { "傳統產業：$($row.traditional_industry)" }
+        else { '傳統產業：未分類' }
+    )
+}
 
 $watchlistPath = Join-Path $root 'data/watchlist.csv'
 if (Test-Path $watchlistPath) {
@@ -85,8 +109,13 @@ $snapshot = [ordered]@{
 
 $csvPath = Join-Path $reportDir "$reportDate.csv"
 $markdownPath = Join-Path $reportDir "$reportDate.md"
-if ($newRows.Count -gt 0 -or -not (Test-Path $csvPath)) {
-    $newRows | Export-Csv -Path $csvPath -NoTypeInformation -Encoding utf8
+$reportRows = $newRows
+if ($RefreshExistingReports -and $newRows.Count -eq 0 -and (Test-Path $csvPath)) {
+    $existingIds = @(Import-Csv $csvPath | ForEach-Object { [string]$_.company_id })
+    $reportRows = @($rows | Where-Object { $_.company_id -in $existingIds } | Sort-Object company_id)
+}
+if ($newRows.Count -gt 0 -or -not (Test-Path $csvPath) -or $RefreshExistingReports) {
+    $reportRows | Export-Csv -Path $csvPath -NoTypeInformation -Encoding utf8
 }
 
 $lines = @(
@@ -97,23 +126,23 @@ $lines = @(
     "本次新增：$($newRows.Count) 家（比對範圍：$($rows.Count) 家）",
     ''
 )
-if ($newRows.Count) {
-    $lines += '| 公司代號 | 公司名稱 | 當月營收（千元） | 月增 | 年增 |'
-    $lines += '| --- | --- | ---: | ---: | ---: |'
-    foreach ($row in $newRows) {
-        $lines += '| {0} | {1} | {2:N0} | {3:N2}% | {4:N2}% |' -f $row.company_id, $row.company_name, $row.monthly_revenue, $row.mom_pct, $row.yoy_pct
+if ($reportRows.Count) {
+    $lines += '| AI 供應鏈類別 | 公司代號 | 公司名稱 | 當月營收（千元） | 月增 | 年增 |'
+    $lines += '| --- | --- | --- | ---: | ---: | ---: |'
+    foreach ($row in ($reportRows | Sort-Object classification_group, industry_category, company_id)) {
+        $lines += '| {0} | {1} | {2} | {3:N0} | {4:N2}% | {5:N2}% |' -f $row.industry_category, $row.company_id, $row.company_name, $row.monthly_revenue, $row.mom_pct, $row.yoy_pct
     }
 } else {
     $lines += '今天沒有新增申報公司。'
 }
-if ($newRows.Count -gt 0 -or -not (Test-Path $markdownPath)) {
+if ($newRows.Count -gt 0 -or -not (Test-Path $markdownPath) -or $RefreshExistingReports) {
     [IO.File]::WriteAllLines($markdownPath, $lines, $utf8NoBom)
 }
 
 Write-Host "Found $($newRows.Count) newly disclosed companies."
 if ($newRows.Count -gt 0 -and $SlackWebhookUrl) {
     $preview = @($newRows | Select-Object -First 20 | ForEach-Object {
-        "• {0} {1}：{2:N0} 千元（年增 {3:N2}%）" -f $_.company_id, $_.company_name, $_.monthly_revenue, $_.yoy_pct
+        "• [{0}] {1} {2}：{3:N0} 千元（年增 {4:N2}%）" -f $_.industry_category, $_.company_id, $_.company_name, $_.monthly_revenue, $_.yoy_pct
     }) -join "`n"
     $message = "*$RocYear 年 $Month 月營收新增申報：$($newRows.Count) 家*`n$preview`n完整報表：$url"
     Invoke-RestMethod -Uri $SlackWebhookUrl -Method Post -ContentType 'application/json; charset=utf-8' -Body (@{ text = $message } | ConvertTo-Json) | Out-Null

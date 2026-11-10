@@ -1,0 +1,7 @@
+# Local credentials and temporary downloads
+.env
+.mops-sample.html
+*.tmp
+
+# Keep the user-supplied source workbook local
+追蹤台股公司.xlsx

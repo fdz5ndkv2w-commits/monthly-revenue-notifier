@@ -1,0 +1,46 @@
+name: Daily MOPS revenue update
+
+on:
+  schedule:
+    # 20:00 Asia/Taipei (UTC+8)
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+    inputs:
+      roc_year:
+        description: "民國年（留空為本月）"
+        required: false
+        type: string
+      month:
+        description: "月份（留空為本月）"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect newly reported revenue
+        shell: pwsh
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          $params = @{}
+          if ('${{ inputs.roc_year }}') { $params.RocYear = [int]'${{ inputs.roc_year }}' }
+          if ('${{ inputs.month }}') { $params.Month = [int]'${{ inputs.month }}' }
+          ./scripts/fetch-revenue.ps1 @params
+
+      - name: Commit reports
+        shell: bash
+        run: |
+          if [[ -n "$(git status --porcelain data reports)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data reports
+            git commit -m "data: update monthly revenue disclosures"
+            git push
+          fi

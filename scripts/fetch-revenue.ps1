@@ -129,7 +129,7 @@ $lines = @(
 if ($reportRows.Count) {
     $lines += '| AI 供應鏈類別 | 公司代號 | 公司名稱 | 當月營收（千元） | 月增 | 年增 |'
     $lines += '| --- | --- | --- | ---: | ---: | ---: |'
-    foreach ($row in ($reportRows | Sort-Object classification_group, industry_category, company_id)) {
+    foreach ($row in ($reportRows | Sort-Object classification_group, industry_category, @{ Expression = 'yoy_pct'; Descending = $true }, company_id)) {
         $lines += '| {0} | {1} | {2} | {3:N0} | {4:N2}% | {5:N2}% |' -f $row.industry_category, $row.company_id, $row.company_name, $row.monthly_revenue, $row.mom_pct, $row.yoy_pct
     }
 } else {

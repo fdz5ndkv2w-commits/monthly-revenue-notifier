@@ -1,7 +1,7 @@
 {
   "source_url": "https://mopsov.twse.com.tw/nas/t21/sii/t21sc03_115_10_0.html",
   "period": "115_10",
-  "checked_at": "2026-11-10T17:37:53.3397956",
+  "checked_at": "2026-11-10T20:49:46.2059301",
   "companies": [
     {
       "company_id": "1101",
@@ -308,6 +308,22 @@
       "industry_category": "傳統產業：食品工業"
     },
     {
+      "company_id": "1229",
+      "company_name": "聯華",
+      "traditional_industry": "食品工業",
+      "monthly_revenue": 1096761.0,
+      "prior_month": 1261817.0,
+      "prior_year_month": 1015427.0,
+      "mom_pct": -13.08,
+      "yoy_pct": 8.00,
+      "ytd_revenue": 10381102.0,
+      "ytd_prior_year": 10779008.0,
+      "ytd_yoy_pct": -3.69,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：食品工業"
+    },
+    {
       "company_id": "1231",
       "company_name": "聯華食",
       "traditional_industry": "食品工業",
@@ -559,6 +575,22 @@
       "ytd_revenue": 52575979.0,
       "ytd_prior_year": 48673779.0,
       "ytd_yoy_pct": 8.01,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：塑膠工業"
+    },
+    {
+      "company_id": "1314",
+      "company_name": "中石化",
+      "traditional_industry": "塑膠工業",
+      "monthly_revenue": 643017.0,
+      "prior_month": 864808.0,
+      "prior_year_month": 916515.0,
+      "mom_pct": -25.64,
+      "yoy_pct": -29.84,
+      "ytd_revenue": 11475042.0,
+      "ytd_prior_year": 16767758.0,
+      "ytd_yoy_pct": -31.56,
       "note": "-",
       "classification_group": 1,
       "industry_category": "傳統產業：塑膠工業"
@@ -882,6 +914,22 @@
       "note": "主因第3季起依修正章程營業項目歸類，營收計入租賃暨發電收入。",
       "classification_group": 1,
       "industry_category": "傳統產業：紡織纖維"
+    },
+    {
+      "company_id": "1432",
+      "company_name": "大魯閣",
+      "traditional_industry": "運動休閒",
+      "monthly_revenue": 67285.0,
+      "prior_month": 67640.0,
+      "prior_year_month": 102685.0,
+      "mom_pct": -0.52,
+      "yoy_pct": -34.47,
+      "ytd_revenue": 683636.0,
+      "ytd_prior_year": 1111534.0,
+      "ytd_yoy_pct": -38.49,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：運動休閒"
     },
     {
       "company_id": "1434",
@@ -1636,6 +1684,22 @@
       "industry_category": "傳統產業：電機機械"
     },
     {
+      "company_id": "1519",
+      "company_name": "華城",
+      "traditional_industry": "電機機械",
+      "monthly_revenue": 1888681.0,
+      "prior_month": 2028540.0,
+      "prior_year_month": 2231989.0,
+      "mom_pct": -6.89,
+      "yoy_pct": -15.38,
+      "ytd_revenue": 18095717.0,
+      "ytd_prior_year": 18558437.0,
+      "ytd_yoy_pct": -2.49,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：電機機械"
+    },
+    {
       "company_id": "1521",
       "company_name": "大億",
       "traditional_industry": "汽車工業",
@@ -2271,6 +2335,22 @@
       "ytd_revenue": 4186082.0,
       "ytd_prior_year": 4096099.0,
       "ytd_yoy_pct": 2.19,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：電器電纜"
+    },
+    {
+      "company_id": "1623",
+      "company_name": "大東電",
+      "traditional_industry": "電器電纜",
+      "monthly_revenue": 761142.0,
+      "prior_month": 519300.0,
+      "prior_year_month": 551070.0,
+      "mom_pct": 46.57,
+      "yoy_pct": 38.12,
+      "ytd_revenue": 5679970.0,
+      "ytd_prior_year": 5387869.0,
+      "ytd_yoy_pct": 5.42,
       "note": "-",
       "classification_group": 1,
       "industry_category": "傳統產業：電器電纜"
@@ -3764,6 +3844,22 @@
       "industry_category": "傳統產業：航運業"
     },
     {
+      "company_id": "2211",
+      "company_name": "長榮鋼",
+      "traditional_industry": "鋼鐵工業",
+      "monthly_revenue": 1362791.0,
+      "prior_month": 1395574.0,
+      "prior_year_month": 1440428.0,
+      "mom_pct": -2.34,
+      "yoy_pct": -5.38,
+      "ytd_revenue": 13294433.0,
+      "ytd_prior_year": 12950135.0,
+      "ytd_yoy_pct": 2.65,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：鋼鐵工業"
+    },
+    {
       "company_id": "2227",
       "company_name": "裕日車",
       "traditional_industry": "汽車工業",
@@ -4836,6 +4932,22 @@
       "industry_category": "傳統產業：其他電子業"
     },
     {
+      "company_id": "2392",
+      "company_name": "正崴",
+      "traditional_industry": "電子零組件業",
+      "monthly_revenue": 7625451.0,
+      "prior_month": 6636635.0,
+      "prior_year_month": 10149615.0,
+      "mom_pct": 14.89,
+      "yoy_pct": -24.86,
+      "ytd_revenue": 57222726.0,
+      "ytd_prior_year": 79368614.0,
+      "ytd_yoy_pct": -27.90,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：電子零組件業"
+    },
+    {
       "company_id": "2393",
       "company_name": "億光",
       "traditional_industry": "光電業",
@@ -5346,6 +5458,22 @@
       "note": "-",
       "classification_group": 1,
       "industry_category": "傳統產業：半導體業"
+    },
+    {
+      "company_id": "2438",
+      "company_name": "翔耀",
+      "traditional_industry": "光電業",
+      "monthly_revenue": 48065.0,
+      "prior_month": 60263.0,
+      "prior_year_month": 34983.0,
+      "mom_pct": -20.24,
+      "yoy_pct": 37.39,
+      "ytd_revenue": 605236.0,
+      "ytd_prior_year": 356044.0,
+      "ytd_yoy_pct": 69.98,
+      "note": "因國軍服裝供售案營運實質改變，自115年起營收認列方式由代採購淨額利潤認列營收改為實質買賣銷售認列營收，因此較去年同期增加",
+      "classification_group": 1,
+      "industry_category": "傳統產業：光電業"
     },
     {
       "company_id": "2439",
@@ -6052,6 +6180,22 @@
       "industry_category": "傳統產業：通信網路業"
     },
     {
+      "company_id": "2501",
+      "company_name": "國建",
+      "traditional_industry": "建材營造",
+      "monthly_revenue": 935265.0,
+      "prior_month": 1124723.0,
+      "prior_year_month": 1980024.0,
+      "mom_pct": -16.84,
+      "yoy_pct": -52.76,
+      "ytd_revenue": 20607825.0,
+      "ytd_prior_year": 17537160.0,
+      "ytd_yoy_pct": 17.50,
+      "note": "本月交屋入帳減少",
+      "classification_group": 1,
+      "industry_category": "傳統產業：建材營造"
+    },
+    {
       "company_id": "2504",
       "company_name": "國產",
       "traditional_industry": "建材營造",
@@ -6724,6 +6868,22 @@
       "industry_category": "傳統產業：航運業"
     },
     {
+      "company_id": "2618",
+      "company_name": "長榮航",
+      "traditional_industry": "航運業",
+      "monthly_revenue": 23181616.0,
+      "prior_month": 20749259.0,
+      "prior_year_month": 18904000.0,
+      "mom_pct": 11.72,
+      "yoy_pct": 22.62,
+      "ytd_revenue": 217561118.0,
+      "ytd_prior_year": 181590685.0,
+      "ytd_yoy_pct": 19.80,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：航運業"
+    },
+    {
       "company_id": "2630",
       "company_name": "亞航",
       "traditional_industry": "航運業",
@@ -6816,6 +6976,22 @@
       "ytd_prior_year": 14878622.0,
       "ytd_yoy_pct": 13.95,
       "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：航運業"
+    },
+    {
+      "company_id": "2646",
+      "company_name": "星宇航空",
+      "traditional_industry": "航運業",
+      "monthly_revenue": 5895459.0,
+      "prior_month": 4974650.0,
+      "prior_year_month": 3696855.0,
+      "mom_pct": 18.51,
+      "yoy_pct": 59.47,
+      "ytd_revenue": 50730565.0,
+      "ytd_prior_year": 36393678.0,
+      "ytd_yoy_pct": 39.39,
+      "note": "因歐美年底消費旺季接近，帶動客貨運營收穩定成長。",
       "classification_group": 1,
       "industry_category": "傳統產業：航運業"
     },
@@ -7348,6 +7524,22 @@
       "industry_category": "傳統產業：貿易百貨"
     },
     {
+      "company_id": "2911",
+      "company_name": "麗嬰房",
+      "traditional_industry": "貿易百貨",
+      "monthly_revenue": 174628.0,
+      "prior_month": 144156.0,
+      "prior_year_month": 203753.0,
+      "mom_pct": 21.13,
+      "yoy_pct": -14.29,
+      "ytd_revenue": 1452710.0,
+      "ytd_prior_year": 1940455.0,
+      "ytd_yoy_pct": -25.13,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：貿易百貨"
+    },
+    {
       "company_id": "2912",
       "company_name": "統一超",
       "traditional_industry": "貿易百貨",
@@ -7396,6 +7588,22 @@
       "industry_category": "傳統產業：貿易百貨"
     },
     {
+      "company_id": "2945",
+      "company_name": "三商家購",
+      "traditional_industry": "貿易百貨",
+      "monthly_revenue": 1754071.0,
+      "prior_month": 1690216.0,
+      "prior_year_month": 1285898.0,
+      "mom_pct": 3.77,
+      "yoy_pct": 36.40,
+      "ytd_revenue": 15960306.0,
+      "ytd_prior_year": 12255063.0,
+      "ytd_yoy_pct": 30.23,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：貿易百貨"
+    },
+    {
       "company_id": "3002",
       "company_name": "歐格",
       "traditional_industry": "電腦及週邊設備業",
@@ -7410,6 +7618,22 @@
       "note": "訂單增加，本月客戶出貨成長",
       "classification_group": 1,
       "industry_category": "傳統產業：電腦及週邊設備業"
+    },
+    {
+      "company_id": "3003",
+      "company_name": "健和興",
+      "traditional_industry": "電子零組件業",
+      "monthly_revenue": 573855.0,
+      "prior_month": 546951.0,
+      "prior_year_month": 376382.0,
+      "mom_pct": 4.91,
+      "yoy_pct": 52.46,
+      "ytd_revenue": 5203753.0,
+      "ytd_prior_year": 3602377.0,
+      "ytd_yoy_pct": 44.45,
+      "note": "受市場供需影響。",
+      "classification_group": 1,
+      "industry_category": "傳統產業：電子零組件業"
     },
     {
       "company_id": "3004",
@@ -7988,6 +8212,22 @@
       "industry_category": "AI供應鏈：PCB"
     },
     {
+      "company_id": "3045",
+      "company_name": "台灣大",
+      "traditional_industry": "通信網路業",
+      "monthly_revenue": 17065239.0,
+      "prior_month": 17411550.0,
+      "prior_year_month": 15624963.0,
+      "mom_pct": -1.98,
+      "yoy_pct": 9.21,
+      "ytd_revenue": 166641400.0,
+      "ytd_prior_year": 157603137.0,
+      "ytd_yoy_pct": 5.73,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：通信網路業"
+    },
+    {
       "company_id": "3046",
       "company_name": "建碁",
       "traditional_industry": "電腦及週邊設備業",
@@ -8034,6 +8274,22 @@
       "note": "-",
       "classification_group": 1,
       "industry_category": "傳統產業：電子通路業"
+    },
+    {
+      "company_id": "3049",
+      "company_name": "精金",
+      "traditional_industry": "光電業",
+      "monthly_revenue": 38718.0,
+      "prior_month": 32270.0,
+      "prior_year_month": 167675.0,
+      "mom_pct": 19.98,
+      "yoy_pct": -76.90,
+      "ytd_revenue": 483312.0,
+      "ytd_prior_year": 1185099.0,
+      "ytd_yoy_pct": -59.21,
+      "note": "本期營收較去年同期減少76.91%，自115年1月31日後全面停產",
+      "classification_group": 1,
+      "industry_category": "傳統產業：光電業"
     },
     {
       "company_id": "3050",
@@ -8274,6 +8530,22 @@
       "note": "-",
       "classification_group": 1,
       "industry_category": "傳統產業：數位雲端"
+    },
+    {
+      "company_id": "3135",
+      "company_name": "凌航",
+      "traditional_industry": "半導體業",
+      "monthly_revenue": 2135828.0,
+      "prior_month": 1843702.0,
+      "prior_year_month": 633219.0,
+      "mom_pct": 15.84,
+      "yoy_pct": 237.29,
+      "ytd_revenue": 19036421.0,
+      "ytd_prior_year": 5776219.0,
+      "ytd_yoy_pct": 229.56,
+      "note": "市場價格上漲及需求增加。",
+      "classification_group": 1,
+      "industry_category": "傳統產業：半導體業"
     },
     {
       "company_id": "3138",
@@ -8690,6 +8962,22 @@
       "note": "-",
       "classification_group": 1,
       "industry_category": "傳統產業：電腦及週邊設備業"
+    },
+    {
+      "company_id": "3419",
+      "company_name": "譁裕",
+      "traditional_industry": "通信網路業",
+      "monthly_revenue": 175935.0,
+      "prior_month": 192491.0,
+      "prior_year_month": 123160.0,
+      "mom_pct": -8.60,
+      "yoy_pct": 42.85,
+      "ytd_revenue": 1616368.0,
+      "ytd_prior_year": 1505324.0,
+      "ytd_yoy_pct": 7.37,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：通信網路業"
     },
     {
       "company_id": "3432",
@@ -9332,6 +9620,22 @@
       "industry_category": "傳統產業：電腦及週邊設備業"
     },
     {
+      "company_id": "3702",
+      "company_name": "大聯大",
+      "traditional_industry": "電子通路業",
+      "monthly_revenue": 149296159.0,
+      "prior_month": 219594834.0,
+      "prior_year_month": 83386952.0,
+      "mom_pct": -32.01,
+      "yoy_pct": 79.04,
+      "ytd_revenue": 1432002983.0,
+      "ytd_prior_year": 827139250.0,
+      "ytd_yoy_pct": 73.12,
+      "note": "全球科技與能源設施擴建帶動半導體及電子零組件動能，車用、工控需求穩步推進，智能倉儲管理與資訊系統整合服務需求同步擴增。",
+      "classification_group": 1,
+      "industry_category": "傳統產業：電子通路業"
+    },
+    {
       "company_id": "3703",
       "company_name": "欣陸",
       "traditional_industry": "建材營造",
@@ -9426,6 +9730,22 @@
       "note": "-",
       "classification_group": 0,
       "industry_category": "AI供應鏈：封裝測試"
+    },
+    {
+      "company_id": "3712",
+      "company_name": "永崴投控",
+      "traditional_industry": "電腦及週邊設備業",
+      "monthly_revenue": 1107579.0,
+      "prior_month": 753200.0,
+      "prior_year_month": 2465151.0,
+      "mom_pct": 47.04,
+      "yoy_pct": -55.07,
+      "ytd_revenue": 6163777.0,
+      "ytd_prior_year": 28367153.0,
+      "ytd_yoy_pct": -78.27,
+      "note": "本公司115/8/31決議透過參與公開收購方式出售森崴公司，115/9/10完成交割，符合停業單位定義，故將今年度營收調整至停業單位收入",
+      "classification_group": 1,
+      "industry_category": "傳統產業：電腦及週邊設備業"
     },
     {
       "company_id": "3714",
@@ -11828,6 +12148,22 @@
       "industry_category": "傳統產業：電子通路業"
     },
     {
+      "company_id": "6282",
+      "company_name": "康舒",
+      "traditional_industry": "電子零組件業",
+      "monthly_revenue": 3453419.0,
+      "prior_month": 3833227.0,
+      "prior_year_month": 2610270.0,
+      "mom_pct": -9.90,
+      "yoy_pct": 32.30,
+      "ytd_revenue": 32354807.0,
+      "ytd_prior_year": 25167887.0,
+      "ytd_yoy_pct": 28.55,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：電子零組件業"
+    },
+    {
       "company_id": "6283",
       "company_name": "淳安",
       "traditional_industry": "其他電子業",
@@ -12580,6 +12916,22 @@
       "industry_category": "傳統產業：其他電子業"
     },
     {
+      "company_id": "6695",
+      "company_name": "芯鼎",
+      "traditional_industry": "半導體業",
+      "monthly_revenue": 93924.0,
+      "prior_month": 93274.0,
+      "prior_year_month": 80146.0,
+      "mom_pct": 0.69,
+      "yoy_pct": 17.19,
+      "ytd_revenue": 881370.0,
+      "ytd_prior_year": 923786.0,
+      "ytd_yoy_pct": -4.59,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：半導體業"
+    },
+    {
       "company_id": "6698",
       "company_name": "旭暉應材",
       "traditional_industry": "其他電子業",
@@ -12656,6 +13008,38 @@
       "ytd_prior_year": 4264107.0,
       "ytd_yoy_pct": -6.94,
       "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：其他電子業"
+    },
+    {
+      "company_id": "6742",
+      "company_name": "澤米",
+      "traditional_industry": "光電業",
+      "monthly_revenue": 40639.0,
+      "prior_month": 31243.0,
+      "prior_year_month": 29472.0,
+      "mom_pct": 30.07,
+      "yoy_pct": 37.89,
+      "ytd_revenue": 315185.0,
+      "ytd_prior_year": 466426.0,
+      "ytd_yoy_pct": -32.42,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：光電業"
+    },
+    {
+      "company_id": "6743",
+      "company_name": "安普新",
+      "traditional_industry": "其他電子業",
+      "monthly_revenue": 792880.0,
+      "prior_month": 688293.0,
+      "prior_year_month": 522957.0,
+      "mom_pct": 15.19,
+      "yoy_pct": 51.61,
+      "ytd_revenue": 5428985.0,
+      "ytd_prior_year": 4662540.0,
+      "ytd_yoy_pct": 16.43,
+      "note": "本期營收較高，主係耳機市場回溫，訂單需求增加所致。",
       "classification_group": 1,
       "industry_category": "傳統產業：其他電子業"
     },
@@ -14340,6 +14724,22 @@
       "industry_category": "傳統產業：電腦及週邊設備業"
     },
     {
+      "company_id": "8213",
+      "company_name": "志超",
+      "traditional_industry": "電子零組件業",
+      "monthly_revenue": 2327615.0,
+      "prior_month": 2194091.0,
+      "prior_year_month": 1500011.0,
+      "mom_pct": 6.08,
+      "yoy_pct": 55.17,
+      "ytd_revenue": 18960352.0,
+      "ytd_prior_year": 15267464.0,
+      "ytd_yoy_pct": 24.18,
+      "note": "因巿場需求增加",
+      "classification_group": 1,
+      "industry_category": "傳統產業：電子零組件業"
+    },
+    {
       "company_id": "8215",
       "company_name": "明基材",
       "traditional_industry": "光電業",
@@ -14370,6 +14770,22 @@
       "note": "-",
       "classification_group": 1,
       "industry_category": "傳統產業：電機機械"
+    },
+    {
+      "company_id": "8249",
+      "company_name": "菱光",
+      "traditional_industry": "電子零組件業",
+      "monthly_revenue": 428212.0,
+      "prior_month": 377050.0,
+      "prior_year_month": 294923.0,
+      "mom_pct": 13.56,
+      "yoy_pct": 45.19,
+      "ytd_revenue": 3408389.0,
+      "ytd_prior_year": 3055198.0,
+      "ytd_yoy_pct": 11.56,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：電子零組件業"
     },
     {
       "company_id": "8261",
@@ -14722,6 +15138,22 @@
       "note": "本期及累計營業收入較去年同期減少，主要係去年同期有較大額投標車輛出售所致。",
       "classification_group": 1,
       "industry_category": "傳統產業：其他"
+    },
+    {
+      "company_id": "9904",
+      "company_name": "寶成",
+      "traditional_industry": "運動休閒",
+      "monthly_revenue": 22214412.0,
+      "prior_month": 21396297.0,
+      "prior_year_month": 21565670.0,
+      "mom_pct": 3.82,
+      "yoy_pct": 3.00,
+      "ytd_revenue": 209885518.0,
+      "ytd_prior_year": 210209066.0,
+      "ytd_yoy_pct": -0.15,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：運動休閒"
     },
     {
       "company_id": "9905",

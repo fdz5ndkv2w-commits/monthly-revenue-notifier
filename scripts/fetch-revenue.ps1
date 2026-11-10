@@ -4,7 +4,8 @@ param(
     [ValidateRange(1, 12)]
     [int]$Month,
     [string]$SlackWebhookUrl = $env:SLACK_WEBHOOK_URL,
-    [switch]$RefreshExistingReports
+    [switch]$RefreshExistingReports,
+    [switch]$InitializeFromFullReport
 )
 
 $ErrorActionPreference = 'Stop'
@@ -58,13 +59,15 @@ function Write-MarkdownReport {
     }
 
     $firstGroup = $true
-    foreach ($group in ($ReportRows | Group-Object industry_category)) {
+    $categories = @($ReportRows | Select-Object -ExpandProperty industry_category -Unique)
+    foreach ($category in $categories) {
+        $groupRows = @($ReportRows | Where-Object { $_.industry_category -eq $category })
         if (-not $firstGroup) { $lines += '', '---', '' }
         $firstGroup = $false
-        $lines += "## $($group.Name)（$($group.Count) 家）", ''
+        $lines += "## $category（$($groupRows.Count) 家）", ''
         $lines += '| 公司代號 | 公司名稱 | 當月營收（千元） | 月增 | 年增 | 備註 |'
         $lines += '| --- | --- | ---: | ---: | ---: | --- |'
-        foreach ($row in $group.Group) {
+        foreach ($row in $groupRows) {
             $note = if ($row.note -and $row.note -ne '-') { $row.note -replace '\|', '\\|' } else { '—' }
             $lines += '| {0} | {1} | {2:N0} | {3:N2}% | {4:N2}% | {5} |' -f $row.company_id, $row.company_name, $row.monthly_revenue, $row.mom_pct, $row.yoy_pct, $note
         }
@@ -161,11 +164,18 @@ $sortOrder = @(
 )
 $reportRows = @($reportRows | Sort-Object -Property $sortOrder)
 $fullReportRows = @($rows | Sort-Object -Property $sortOrder)
-if ($newRows.Count -gt 0 -or -not (Test-Path $csvPath) -or $RefreshExistingReports) {
+$reportTitle = "$RocYear 年 $Month 月營收：$reportDate 新增申報"
+$reportSummary = "本次新增：$($newRows.Count) 家（比對範圍：$($rows.Count) 家）"
+if ($InitializeFromFullReport) {
+    $reportRows = $fullReportRows
+    $reportTitle = "$RocYear 年 $Month 月營收完整報表（初始基準）"
+    $reportSummary = "初始基準共 $($fullReportRows.Count) 家；後續每日報表僅收錄新申報公司。"
+}
+if ($newRows.Count -gt 0 -or -not (Test-Path $csvPath) -or $RefreshExistingReports -or $InitializeFromFullReport) {
     $reportRows | Export-Csv -Path $csvPath -NoTypeInformation -Encoding utf8
 }
-if ($newRows.Count -gt 0 -or -not (Test-Path $markdownPath) -or $RefreshExistingReports) {
-    Write-MarkdownReport -Path $markdownPath -Title "$RocYear 年 $Month 月營收：$reportDate 新增申報" -ReportRows $reportRows -Summary "本次新增：$($newRows.Count) 家（比對範圍：$($rows.Count) 家）"
+if ($newRows.Count -gt 0 -or -not (Test-Path $markdownPath) -or $RefreshExistingReports -or $InitializeFromFullReport) {
+    Write-MarkdownReport -Path $markdownPath -Title $reportTitle -ReportRows $reportRows -Summary $reportSummary
 }
 $fullReportRows | Export-Csv -Path $fullCsvPath -NoTypeInformation -Encoding utf8
 Write-MarkdownReport -Path $fullMarkdownPath -Title "$RocYear 年 $Month 月營收全公司整理" -ReportRows $fullReportRows -Summary "共 $($fullReportRows.Count) 家，AI 供應鏈類別優先，其餘依 MOPS 傳統產業分類。"

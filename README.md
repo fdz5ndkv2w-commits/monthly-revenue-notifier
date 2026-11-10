@@ -55,3 +55,5 @@ company_id
 建立初始基準時可加入 `-InitializeFromFullReport`，讓當日報表直接使用完整公司清單；之後的每日執行會回復為僅整理新增申報。
 
 在 GitHub Actions 的手動執行畫面勾選「傳送 Slack 測試通知」，可驗證 `SLACK_WEBHOOK_URL` 設定與目標頻道是否正常。
+
+Slack 通知會附上 GitHub Markdown 報表連結，點擊即可開啟當日新增申報或全公司總表。

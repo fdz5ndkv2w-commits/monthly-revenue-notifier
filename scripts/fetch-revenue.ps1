@@ -27,6 +27,13 @@ $snapshotPath = Join-Path $snapshotDir "$period.json"
 $reportDate = $today.ToString('yyyy-MM-dd')
 New-Item -ItemType Directory -Force -Path $snapshotDir, $reportDir | Out-Null
 
+function Get-GitHubReportUrl([string]$FileName) {
+    if (-not $env:GITHUB_REPOSITORY) { return $null }
+    $server = if ($env:GITHUB_SERVER_URL) { $env:GITHUB_SERVER_URL } else { 'https://github.com' }
+    $branch = if ($env:GITHUB_REF_NAME) { $env:GITHUB_REF_NAME } else { 'main' }
+    return "$server/$env:GITHUB_REPOSITORY/blob/$branch/reports/$period/$FileName"
+}
+
 function Convert-Number([string]$Value) {
     $clean = ($Value -replace ',', '').Trim()
     if ([string]::IsNullOrWhiteSpace($clean) -or $clean -eq '-') { return $null }
@@ -186,13 +193,17 @@ if ($newRows.Count -gt 0 -and $SlackWebhookUrl) {
     $preview = @($newRows | Select-Object -First 20 | ForEach-Object {
         "• [{0}] {1} {2}：{3:N0} 千元（年增 {4:N2}%）" -f $_.industry_category, $_.company_id, $_.company_name, $_.monthly_revenue, $_.yoy_pct
     }) -join "`n"
-    $message = "*$RocYear 年 $Month 月營收新增申報：$($newRows.Count) 家*`n$preview`n完整報表：$url"
+    $reportUrl = Get-GitHubReportUrl "$reportDate.md"
+    $reportLink = if ($reportUrl) { "<${reportUrl}|查看完整 Markdown 報表>" } else { $url }
+    $message = "*$RocYear 年 $Month 月營收新增申報：$($newRows.Count) 家*`n$preview`n完整報表：$reportLink"
     Invoke-RestMethod -Uri $SlackWebhookUrl -Method Post -ContentType 'application/json; charset=utf-8' -Body (@{ text = $message } | ConvertTo-Json) | Out-Null
     Write-Host 'Slack notification sent.'
 }
 if ($SendTestSlack) {
     if (-not $SlackWebhookUrl) { throw 'SLACK_WEBHOOK_URL is required for a Slack test notification.' }
-    $message = "*每月營收推送測試成功*`nGitHub Actions 已可傳送通知到此頻道。`n測試時間：$($today.ToString('yyyy-MM-dd HH:mm'))（台北時間）"
+    $reportUrl = Get-GitHubReportUrl 'all-companies.md'
+    $reportLink = if ($reportUrl) { "`n完整報表：<${reportUrl}|查看完整 Markdown 報表>" } else { '' }
+    $message = "*每月營收推送測試成功*`nGitHub Actions 已可傳送通知到此頻道。`n測試時間：$($today.ToString('yyyy-MM-dd HH:mm'))（台北時間）$reportLink"
     Invoke-RestMethod -Uri $SlackWebhookUrl -Method Post -ContentType 'application/json; charset=utf-8' -Body (@{ text = $message } | ConvertTo-Json) | Out-Null
     Write-Host 'Slack test notification sent.'
 }

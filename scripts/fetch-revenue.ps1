@@ -114,6 +114,13 @@ if ($RefreshExistingReports -and $newRows.Count -eq 0 -and (Test-Path $csvPath))
     $existingIds = @(Import-Csv $csvPath | ForEach-Object { [string]$_.company_id })
     $reportRows = @($rows | Where-Object { $_.company_id -in $existingIds } | Sort-Object company_id)
 }
+$sortOrder = @(
+    'classification_group',
+    'industry_category',
+    @{ Expression = { [decimal]$_.yoy_pct }; Descending = $true },
+    'company_id'
+)
+$reportRows = @($reportRows | Sort-Object -Property $sortOrder)
 if ($newRows.Count -gt 0 -or -not (Test-Path $csvPath) -or $RefreshExistingReports) {
     $reportRows | Export-Csv -Path $csvPath -NoTypeInformation -Encoding utf8
 }
@@ -129,13 +136,7 @@ $lines = @(
 if ($reportRows.Count) {
     $lines += '| AI 供應鏈類別 | 公司代號 | 公司名稱 | 當月營收（千元） | 月增 | 年增 |'
     $lines += '| --- | --- | --- | ---: | ---: | ---: |'
-    $sortOrder = @(
-        'classification_group',
-        'industry_category',
-        @{ Expression = { [decimal]$_.yoy_pct }; Descending = $true },
-        'company_id'
-    )
-    foreach ($row in ($reportRows | Sort-Object -Property $sortOrder)) {
+    foreach ($row in $reportRows) {
         $lines += '| {0} | {1} | {2} | {3:N0} | {4:N2}% | {5:N2}% |' -f $row.industry_category, $row.company_id, $row.company_name, $row.monthly_revenue, $row.mom_pct, $row.yoy_pct
     }
 } else {

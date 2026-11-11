@@ -209,20 +209,43 @@ Write-MarkdownReport -Path $fullMarkdownPath -Title "$RocYear 年 $Month 月營�
 
 Write-Host "Found $($newRows.Count) newly disclosed companies."
 if ($newRows.Count -gt 0 -and $SlackWebhookUrl) {
-    $preview = @($newRows | Select-Object -First 20 | ForEach-Object {
+    $newRevenuePreview = @($reportRows | Select-Object -First 20 | ForEach-Object {
         "• [{0}] {1} {2}：{3:N0} 千元（年增 {4:N2}%）" -f $_.industry_category, $_.company_id, $_.company_name, $_.monthly_revenue, $_.yoy_pct
     }) -join "`n"
-    $reportUrl = Get-GitHubReportUrl "$reportDate.md"
-    $reportLink = if ($reportUrl) { "<${reportUrl}|查看完整 Markdown 報表>" } else { $sources[0].url }
-    $message = "*$RocYear 年 $Month 月營收新增申報：$($newRows.Count) 家*`n$preview`n完整報表：$reportLink"
+    if ($newRows.Count -gt 20) {
+        $newRevenuePreview += "`n• 其餘 $($newRows.Count - 20) 家請開啟新增產業營收表查看"
+    }
+    $newRevenueUrl = Get-GitHubReportUrl "$reportDate.md"
+    $allCompaniesUrl = Get-GitHubReportUrl 'all-companies.md'
+    $newRevenueLink = if ($newRevenueUrl) { "<${newRevenueUrl}|開啟新增產業營收表>" } else { $sources[0].url }
+    $allCompaniesLink = if ($allCompaniesUrl) { "<${allCompaniesUrl}|開啟完整公司列表>" } else { $sources[0].url }
+    $message = @(
+        "*$RocYear 年 $Month 月營收更新：今日新增 $($newRows.Count) 家*",
+        '',
+        '*一、新增產業營收*',
+        $newRevenuePreview,
+        "報表：$newRevenueLink",
+        '',
+        "*二、完整公司列表（共 $($fullReportRows.Count) 家）*",
+        "報表：$allCompaniesLink"
+    ) -join "`n"
     Invoke-RestMethod -Uri $SlackWebhookUrl -Method Post -ContentType 'application/json; charset=utf-8' -Body (@{ text = $message } | ConvertTo-Json) | Out-Null
     Write-Host 'Slack notification sent.'
 }
 if ($SendTestSlack) {
     if (-not $SlackWebhookUrl) { throw 'SLACK_WEBHOOK_URL is required for a Slack test notification.' }
-    $reportUrl = Get-GitHubReportUrl 'all-companies.md'
-    $reportLink = if ($reportUrl) { "`n完整報表：<${reportUrl}|查看完整 Markdown 報表>" } else { '' }
-    $message = "*每月營收推送測試成功*`nGitHub Actions 已可傳送通知到此頻道。`n測試時間：$($today.ToString('yyyy-MM-dd HH:mm'))（台北時間）$reportLink"
+    $newRevenueUrl = Get-GitHubReportUrl "$reportDate.md"
+    $allCompaniesUrl = Get-GitHubReportUrl 'all-companies.md'
+    $newRevenueLink = if ($newRevenueUrl) { "<${newRevenueUrl}|開啟新增產業營收表>" } else { '本機測試沒有 GitHub 網址' }
+    $allCompaniesLink = if ($allCompaniesUrl) { "<${allCompaniesUrl}|開啟完整公司列表>" } else { '本機測試沒有 GitHub 網址' }
+    $message = @(
+        '*每月營收推送測試成功*',
+        'GitHub Actions 已可傳送通知到此頻道。',
+        "測試時間：$($today.ToString('yyyy-MM-dd HH:mm'))（台北時間）",
+        '',
+        "*一、新增產業營收*：$newRevenueLink",
+        "*二、完整公司列表*：$allCompaniesLink"
+    ) -join "`n"
     Invoke-RestMethod -Uri $SlackWebhookUrl -Method Post -ContentType 'application/json; charset=utf-8' -Body (@{ text = $message } | ConvertTo-Json) | Out-Null
     Write-Host 'Slack test notification sent.'
 }

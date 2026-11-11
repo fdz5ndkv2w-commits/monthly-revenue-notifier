@@ -56,4 +56,9 @@ company_id
 
 在 GitHub Actions 的手動執行畫面勾選「傳送 Slack 測試通知」，可驗證 `SLACK_WEBHOOK_URL` 設定與目標頻道是否正常。
 
-Slack 通知會附上 GitHub Markdown 報表連結，點擊即可開啟當日新增申報或全公司總表。
+Slack 通知分成兩個區塊：
+
+1. **新增產業營收**：顯示今天新發布的公司摘要，並附上當日 Markdown 報表網址。
+2. **完整公司列表**：顯示完整公司數量，並附上 `all-companies.md` 網址。
+
+兩個網址都能在 Slack 手機版直接點開。

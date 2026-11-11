@@ -4,7 +4,7 @@
     "https://mopsov.twse.com.tw/nas/t21/otc/t21sc03_115_10_0.html"
   ],
   "period": "115_10",
-  "checked_at": "2026-11-11T08:41:37.3412770",
+  "checked_at": "2026-11-11T17:13:47.9529931",
   "companies": [
     {
       "market": "上市",
@@ -7921,9 +7921,9 @@
       "prior_year_month": 32051.0,
       "mom_pct": -11.35,
       "yoy_pct": 3.64,
-      "ytd_revenue": 343762.0,
+      "ytd_revenue": 347329.0,
       "ytd_prior_year": 407461.0,
-      "ytd_yoy_pct": -15.63,
+      "ytd_yoy_pct": -14.75,
       "note": "-",
       "classification_group": 1,
       "industry_category": "傳統產業：其他"
@@ -29358,9 +29358,9 @@
       "prior_year_month": 591743.0,
       "mom_pct": 98.17,
       "yoy_pct": 130.55,
-      "ytd_revenue": 5160465.0,
-      "ytd_prior_year": 4141228.0,
-      "ytd_yoy_pct": 24.61,
+      "ytd_revenue": 6524752.0,
+      "ytd_prior_year": 4732971.0,
+      "ytd_yoy_pct": 37.85,
       "note": "本月增減達百分比50%以上，係因本月投入國內及海外專案較去年同期增加所致。",
       "classification_group": 1,
       "industry_category": "傳統產業：其他電子業"

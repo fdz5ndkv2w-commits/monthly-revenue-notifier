@@ -20,7 +20,10 @@ if (-not $RocYear) { $RocYear = $reportingMonth.Year - 1911 }
 if (-not $Month) { $Month = $reportingMonth.Month }
 
 $period = '{0}_{1:00}' -f $RocYear, $Month
-$url = "https://mopsov.twse.com.tw/nas/t21/sii/t21sc03_$period`_0.html"
+$sources = @(
+    [pscustomobject]@{ market = '上市'; url = "https://mopsov.twse.com.tw/nas/t21/sii/t21sc03_$period`_0.html" },
+    [pscustomobject]@{ market = '上櫃'; url = "https://mopsov.twse.com.tw/nas/t21/otc/t21sc03_$period`_0.html" }
+)
 $snapshotDir = Join-Path $root 'data/snapshots'
 $reportDir = Join-Path $root "reports/$period"
 $snapshotPath = Join-Path $snapshotDir "$period.json"
@@ -44,6 +47,17 @@ function Clean-Text([string]$Value) {
     return [System.Net.WebUtility]::HtmlDecode(($Value -replace '<br\s*/?>', '' -replace '<[^>]+>', '').Trim())
 }
 
+function Get-MopsPage([string]$PageUrl) {
+    Write-Host "Downloading $PageUrl"
+    for ($attempt = 1; $attempt -le 3; $attempt++) {
+        try { return Invoke-WebRequest -Uri $PageUrl -UseBasicParsing -TimeoutSec 60 } catch {
+            if ($attempt -eq 3) { throw }
+            Write-Warning "MOPS connection failed (attempt $attempt of 3). Retrying in 10 seconds."
+            Start-Sleep -Seconds 10
+        }
+    }
+}
+
 function Write-MarkdownReport {
     param(
         [string]$Path,
@@ -55,7 +69,7 @@ function Write-MarkdownReport {
     $lines = @(
         "# $Title",
         '',
-        "來源：[公開資訊觀測站]($url)",
+        '來源：公開資訊觀測站（上市、上櫃）',
         '',
         $Summary,
         ''
@@ -73,34 +87,21 @@ function Write-MarkdownReport {
         if (-not $firstGroup) { $lines += '', '---', '' }
         $firstGroup = $false
         $lines += "## $category（$($groupRows.Count) 家）", ''
-        $lines += '| 公司代號 | 公司名稱 | 當月營收（千元） | 月增 | 年增 | 備註 |'
-        $lines += '| --- | --- | ---: | ---: | ---: | --- |'
+        $lines += '| 市場 | 公司代號 | 公司名稱 | 當月營收（千元） | 月增 | 年增 | 備註 |'
+        $lines += '| --- | --- | --- | ---: | ---: | ---: | --- |'
         foreach ($row in $groupRows) {
             $note = if ($row.note -and $row.note -ne '-') { $row.note -replace '\|', '\\|' } else { '—' }
-            $lines += '| {0} | {1} | {2:N0} | {3:N2}% | {4:N2}% | {5} |' -f $row.company_id, $row.company_name, $row.monthly_revenue, $row.mom_pct, $row.yoy_pct, $note
+            $lines += '| {0} | {1} | {2} | {3:N0} | {4:N2}% | {5:N2}% | {6} |' -f $row.market, $row.company_id, $row.company_name, $row.monthly_revenue, $row.mom_pct, $row.yoy_pct, $note
         }
     }
     [IO.File]::WriteAllLines($Path, $lines, $utf8NoBom)
 }
 
-Write-Host "Downloading $url"
-$response = $null
-for ($attempt = 1; $attempt -le 3; $attempt++) {
-    try {
-        $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 60
-        break
-    } catch {
-        if ($attempt -eq 3) { throw }
-        Write-Warning "MOPS connection failed (attempt $attempt of 3). Retrying in 10 seconds."
-        Start-Sleep -Seconds 10
-    }
-}
-if ($response.StatusCode -ne 200 -or $response.Content -notmatch '營業收入統計表') {
-    throw "MOPS page was unavailable or did not contain a revenue table: $url"
-}
-
-$industryMatches = [regex]::Matches($response.Content, '產業別：(?<industry>[^<]+)')
-$rows = foreach ($match in [regex]::Matches($response.Content, '(?is)<tr\s+align=right>(?<row>.*?)</tr>')) {
+$rows = foreach ($source in $sources) {
+    $response = Get-MopsPage $source.url
+    if ($response.StatusCode -ne 200 -or $response.Content -notmatch '營業收入統計表') { throw "MOPS page was unavailable: $($source.url)" }
+    $industryMatches = [regex]::Matches($response.Content, '產業別：(?<industry>[^<]+)')
+    foreach ($match in [regex]::Matches($response.Content, '(?is)<tr\s+align=right>(?<row>.*?)</tr>')) {
         $cells = [regex]::Matches($match.Groups['row'].Value, '(?is)<t[dh][^>]*>(?<cell>.*?)</t[dh]>') |
             ForEach-Object { Clean-Text $_.Groups['cell'].Value }
         if ($cells.Count -ge 10 -and $cells[0] -match '^\d{4,6}$') {
@@ -110,6 +111,7 @@ $rows = foreach ($match in [regex]::Matches($response.Content, '(?is)<tr\s+align
                 $industry = Clean-Text $industryMatch.Groups['industry'].Value
             }
             [pscustomobject]@{
+                market           = $source.market
                 company_id       = $cells[0]
                 company_name     = $cells[1]
                 traditional_industry = $industry
@@ -124,9 +126,10 @@ $rows = foreach ($match in [regex]::Matches($response.Content, '(?is)<tr\s+align
                 note             = if ($cells.Count -gt 10) { $cells[10] } else { '' }
             }
         }
+    }
 }
 
-if (-not $rows) { throw "No company rows could be parsed from MOPS: $url" }
+if (-not $rows) { throw 'No company rows could be parsed from MOPS.' }
 
 $classificationPath = Join-Path $root 'data/ai_supply_chain.csv'
 $classifications = @{}
@@ -153,15 +156,21 @@ if (Test-Path $watchlistPath) {
 
 $previous = @{}
 if (Test-Path $snapshotPath) {
-    (Get-Content $snapshotPath -Raw | ConvertFrom-Json).companies | ForEach-Object { $previous[$_.company_id] = $_ }
+    (Get-Content $snapshotPath -Raw | ConvertFrom-Json).companies | ForEach-Object {
+        $key = if ($_.market) { "$($_.market):$($_.company_id)" } else { $_.company_id }
+        $previous[$key] = $_
+    }
 }
-$newRows = @($rows | Where-Object { -not $previous.ContainsKey($_.company_id) } | Sort-Object company_id)
+$newRows = @($rows | Where-Object {
+    $key = "$($_.market):$($_.company_id)"
+    -not $previous.ContainsKey($key) -and -not ($_.market -eq '上市' -and $previous.ContainsKey($_.company_id))
+} | Sort-Object market, company_id)
 
 $snapshot = [ordered]@{
-    source_url = $url
+    source_urls = @($sources.url)
     period = $period
     checked_at = $today.ToString('o')
-    companies = @($rows | Sort-Object company_id)
+    companies = @($rows | Sort-Object market, company_id)
 }
 [IO.File]::WriteAllText($snapshotPath, ($snapshot | ConvertTo-Json -Depth 4), $utf8NoBom)
 
@@ -204,7 +213,7 @@ if ($newRows.Count -gt 0 -and $SlackWebhookUrl) {
         "• [{0}] {1} {2}：{3:N0} 千元（年增 {4:N2}%）" -f $_.industry_category, $_.company_id, $_.company_name, $_.monthly_revenue, $_.yoy_pct
     }) -join "`n"
     $reportUrl = Get-GitHubReportUrl "$reportDate.md"
-    $reportLink = if ($reportUrl) { "<${reportUrl}|查看完整 Markdown 報表>" } else { $url }
+    $reportLink = if ($reportUrl) { "<${reportUrl}|查看完整 Markdown 報表>" } else { $sources[0].url }
     $message = "*$RocYear 年 $Month 月營收新增申報：$($newRows.Count) 家*`n$preview`n完整報表：$reportLink"
     Invoke-RestMethod -Uri $SlackWebhookUrl -Method Post -ContentType 'application/json; charset=utf-8' -Body (@{ text = $message } | ConvertTo-Json) | Out-Null
     Write-Host 'Slack notification sent.'

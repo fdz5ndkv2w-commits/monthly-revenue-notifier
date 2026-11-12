@@ -4,7 +4,7 @@
     "https://mopsov.twse.com.tw/nas/t21/otc/t21sc03_115_10_0.html"
   ],
   "period": "115_10",
-  "checked_at": "2026-11-12T08:26:05.9738975",
+  "checked_at": "2026-11-12T10:07:02.1566394",
   "companies": [
     {
       "market": "上市",
@@ -7856,6 +7856,23 @@
       "ytd_revenue": 91165761.0,
       "ytd_prior_year": 62550354.0,
       "ytd_yoy_pct": 45.74,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：金融保險業（其中金控公司係控股公司，其申報之「營業收入」係認列所有子公司損益之合計數）"
+    },
+    {
+      "market": "上市",
+      "company_id": "2891",
+      "company_name": "中信金",
+      "traditional_industry": "金融保險業（其中金控公司係控股公司，其申報之「營業收入」係認列所有子公司損益之合計數）",
+      "monthly_revenue": 17632633.0,
+      "prior_month": 21331939.0,
+      "prior_year_month": 27299478.0,
+      "mom_pct": -17.34,
+      "yoy_pct": -35.41,
+      "ytd_revenue": 200009853.0,
+      "ytd_prior_year": 164191863.0,
+      "ytd_yoy_pct": 21.81,
       "note": "-",
       "classification_group": 1,
       "industry_category": "傳統產業：金融保險業（其中金控公司係控股公司，其申報之「營業收入」係認列所有子公司損益之合計數）"

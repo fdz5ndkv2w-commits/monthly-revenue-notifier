@@ -4,7 +4,7 @@
     "https://mopsov.twse.com.tw/nas/t21/otc/t21sc03_115_10_0.html"
   ],
   "period": "115_10",
-  "checked_at": "2026-11-13T20:50:50.8242767",
+  "checked_at": "2026-11-15T20:34:46.2981048",
   "companies": [
     {
       "market": "上市",
@@ -29721,6 +29721,23 @@
       "note": "本月及本年累計營收增加，主要係因售電業務成長所致。",
       "classification_group": 1,
       "industry_category": "傳統產業：綠能環保"
+    },
+    {
+      "market": "上櫃",
+      "company_id": "7848",
+      "company_name": "騏億鑫",
+      "traditional_industry": "其他電子業",
+      "monthly_revenue": 371326.0,
+      "prior_month": 298549.0,
+      "prior_year_month": 176540.0,
+      "mom_pct": 24.37,
+      "yoy_pct": 110.33,
+      "ytd_revenue": 2655643.0,
+      "ytd_prior_year": 1479794.0,
+      "ytd_yoy_pct": 79.46,
+      "note": "營收較去年同期累計增加50%以上，主要係115年度各期進行中之專案較去年同期增加所致。",
+      "classification_group": 1,
+      "industry_category": "傳統產業：其他電子業"
     },
     {
       "market": "上櫃",

@@ -4,7 +4,7 @@
     "https://mopsov.twse.com.tw/nas/t21/otc/t21sc03_115_10_0.html"
   ],
   "period": "115_10",
-  "checked_at": "2026-11-16T22:47:23.2003447",
+  "checked_at": "2026-11-17T20:49:59.3069337",
   "companies": [
     {
       "market": "上市",
@@ -29591,14 +29591,14 @@
       "company_id": "7782",
       "company_name": "光速火箭",
       "traditional_industry": "居家生活",
-      "monthly_revenue": 76697.0,
+      "monthly_revenue": 71466.0,
       "prior_month": 66440.0,
       "prior_year_month": 54595.0,
-      "mom_pct": 15.43,
-      "yoy_pct": 40.48,
-      "ytd_revenue": 622626.0,
+      "mom_pct": 7.56,
+      "yoy_pct": 30.90,
+      "ytd_revenue": 617395.0,
       "ytd_prior_year": 574555.0,
-      "ytd_yoy_pct": 8.36,
+      "ytd_yoy_pct": 7.45,
       "note": "-",
       "classification_group": 1,
       "industry_category": "傳統產業：居家生活"

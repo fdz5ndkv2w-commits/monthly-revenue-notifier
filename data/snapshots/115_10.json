@@ -4,7 +4,7 @@
     "https://mopsov.twse.com.tw/nas/t21/otc/t21sc03_115_10_0.html"
   ],
   "period": "115_10",
-  "checked_at": "2026-11-19T20:57:23.1304216",
+  "checked_at": "2026-11-20T20:54:01.4091401",
   "companies": [
     {
       "market": "上市",
@@ -18801,9 +18801,9 @@
       "prior_year_month": 107548.0,
       "mom_pct": 45.79,
       "yoy_pct": 103.35,
-      "ytd_revenue": 1386045.0,
+      "ytd_revenue": 1883441.0,
       "ytd_prior_year": 1383817.0,
-      "ytd_yoy_pct": 0.16,
+      "ytd_yoy_pct": 36.10,
       "note": "因受讓自龍鋒企業之特定營業部門併入整體營運，受惠於組織整併效應帶動整體銷售成長所致。",
       "classification_group": 1,
       "industry_category": "傳統產業：電機機械"

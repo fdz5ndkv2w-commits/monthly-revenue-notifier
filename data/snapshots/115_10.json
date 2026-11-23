@@ -4,7 +4,7 @@
     "https://mopsov.twse.com.tw/nas/t21/otc/t21sc03_115_10_0.html"
   ],
   "period": "115_10",
-  "checked_at": "2026-11-22T20:40:28.6544750",
+  "checked_at": "2026-11-23T20:57:57.1812751",
   "companies": [
     {
       "market": "上市",
@@ -19017,14 +19017,14 @@
       "company_id": "3272",
       "company_name": "東碩",
       "traditional_industry": "電腦及週邊設備業",
-      "monthly_revenue": 219232.0,
-      "prior_month": 237580.0,
+      "monthly_revenue": 205167.0,
+      "prior_month": 216045.0,
       "prior_year_month": 224268.0,
-      "mom_pct": -7.72,
-      "yoy_pct": -2.24,
-      "ytd_revenue": 2250097.0,
+      "mom_pct": -5.03,
+      "yoy_pct": -8.51,
+      "ytd_revenue": 2187502.0,
       "ytd_prior_year": 2487592.0,
-      "ytd_yoy_pct": -9.54,
+      "ytd_yoy_pct": -12.06,
       "note": "-",
       "classification_group": 1,
       "industry_category": "傳統產業：電腦及週邊設備業"

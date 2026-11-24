@@ -4,7 +4,7 @@
     "https://mopsov.twse.com.tw/nas/t21/otc/t21sc03_115_10_0.html"
   ],
   "period": "115_10",
-  "checked_at": "2026-11-23T20:57:57.1812751",
+  "checked_at": "2026-11-24T20:58:18.7043743",
   "companies": [
     {
       "market": "上市",
@@ -14833,7 +14833,7 @@
     {
       "market": "上市",
       "company_id": "6949",
-      "company_name": "沛爾生醫*-創",
+      "company_name": "沛爾*-創",
       "traditional_industry": "生技醫療業",
       "monthly_revenue": 2224.0,
       "prior_month": 1931.0,
@@ -30424,11 +30424,11 @@
       "company_id": "8092",
       "company_name": "建暐",
       "traditional_industry": "其他電子業",
-      "monthly_revenue": 41334.0,
-      "prior_month": 52016.0,
+      "monthly_revenue": 26995.0,
+      "prior_month": 66355.0,
       "prior_year_month": 32425.0,
-      "mom_pct": -20.53,
-      "yoy_pct": 27.47,
+      "mom_pct": -59.31,
+      "yoy_pct": -16.74,
       "ytd_revenue": 303832.0,
       "ytd_prior_year": 313025.0,
       "ytd_yoy_pct": -2.93,

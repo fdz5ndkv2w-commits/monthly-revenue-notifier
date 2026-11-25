@@ -4,7 +4,7 @@
     "https://mopsov.twse.com.tw/nas/t21/otc/t21sc03_115_10_0.html"
   ],
   "period": "115_10",
-  "checked_at": "2026-11-24T20:58:18.7043743",
+  "checked_at": "2026-11-25T21:02:07.4899236",
   "companies": [
     {
       "market": "上市",
@@ -13441,14 +13441,14 @@
       "company_id": "6472",
       "company_name": "保瑞",
       "traditional_industry": "生技醫療業",
-      "monthly_revenue": 1989583.0,
-      "prior_month": 2325228.0,
+      "monthly_revenue": 1975135.0,
+      "prior_month": 2369613.0,
       "prior_year_month": 1716457.0,
-      "mom_pct": -14.43,
-      "yoy_pct": 15.91,
-      "ytd_revenue": 18293599.0,
+      "mom_pct": -16.64,
+      "yoy_pct": 15.07,
+      "ytd_revenue": 18323536.0,
       "ytd_prior_year": 16613638.0,
-      "ytd_yoy_pct": 10.11,
+      "ytd_yoy_pct": 10.29,
       "note": "停業單位營收累計為5,152千元",
       "classification_group": 1,
       "industry_category": "傳統產業：生技醫療業"
@@ -29860,6 +29860,23 @@
     },
     {
       "market": "上櫃",
+      "company_id": "7869",
+      "company_name": "宏于電機",
+      "traditional_industry": "電機機械",
+      "monthly_revenue": 305706.0,
+      "prior_month": 326136.0,
+      "prior_year_month": 260766.0,
+      "mom_pct": -6.26,
+      "yoy_pct": 17.23,
+      "ytd_revenue": 2995024.0,
+      "ytd_prior_year": 2742105.0,
+      "ytd_yoy_pct": 9.22,
+      "note": "-",
+      "classification_group": 1,
+      "industry_category": "傳統產業：電機機械"
+    },
+    {
+      "market": "上櫃",
       "company_id": "8024",
       "company_name": "佑華",
       "traditional_industry": "半導體業",
@@ -30609,7 +30626,7 @@
     {
       "market": "上櫃",
       "company_id": "8155",
-      "company_name": "博智",
+      "company_name": "博智電子",
       "traditional_industry": "電子零組件業",
       "monthly_revenue": 563655.0,
       "prior_month": 563350.0,

@@ -4,7 +4,7 @@
     "https://mopsov.twse.com.tw/nas/t21/otc/t21sc03_115_10_0.html"
   ],
   "period": "115_10",
-  "checked_at": "2026-11-26T21:00:23.7903272",
+  "checked_at": "2026-11-27T20:57:45.4408709",
   "companies": [
     {
       "market": "上市",
@@ -10228,12 +10228,12 @@
       "company_id": "3593",
       "company_name": "力銘",
       "traditional_industry": "電子零組件業",
-      "monthly_revenue": 60250.0,
+      "monthly_revenue": 54083.0,
       "prior_month": 64458.0,
       "prior_year_month": 69502.0,
-      "mom_pct": -6.52,
-      "yoy_pct": -13.31,
-      "ytd_revenue": 561252.0,
+      "mom_pct": -16.09,
+      "yoy_pct": -22.18,
+      "ytd_revenue": 561254.0,
       "ytd_prior_year": 964722.0,
       "ytd_yoy_pct": -41.82,
       "note": "-",
